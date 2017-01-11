@@ -16,53 +16,51 @@ public class CsvFileReader {
 		
 	}
 	
-	public Response Read(String[] args, String[] filelines )
+	/**
+	 * Read a csv file and return as an array of strings. 
+	 * Each line of the file corresponds to a roll in the array.
+	 * 
+	 * @param workingfilename is the name of the file to read.
+	 * @param filelines is the return of the method.
+	 * @return 
+	 */
+	
+	public Response Read(String workingfilename, String[] filelines )
 	{
 		Response response  = new Response();
-		
-		if (args != null && args.length > 0 )
-		{		
-			String fileName = args[0];
-	        BufferedReader bReader = null;
-	        String line = "";
-	        String cvsSeparator = ",";
-	        ArrayList<String> lines = new ArrayList<>();
-	        try {
+	
+        BufferedReader bReader = null;
+        String line = "";
+        ArrayList<String> lines = new ArrayList<String>();
+        try {
+        	bReader = new BufferedReader(new FileReader(workingfilename));
+            while ((line = bReader.readLine()) != null) {
 
-	        	bReader = new BufferedReader(new FileReader(fileName));
-	            while ((line = bReader.readLine()) != null) {
+                lines.add(line);
+            }
+            
+            filelines = new String[lines.size()];
+            filelines = lines.toArray(filelines);
+            response.Status = true;
+            response.Message = "File parsed.";
 
-	                lines.add(line);
-	                System.out.println("Line: [ " + line + " ]");
-	            }
-	            
-	            filelines = (String[])lines.toArray();
-	            response.Status = true;
-	            response.Message = "File parsed.";
-
-	        } catch (FileNotFoundException e) {
-	        	e.printStackTrace();
-	            response.Status = false;
-	            response.Message = e.getStackTrace().toString();
-	        } catch (IOException e) {
-	        	e.printStackTrace();
-	            response.Status = false;
-	            response.Message = e.getStackTrace().toString();
-	        } finally {
-	            if (bReader != null) {
-	                try {
-	                	bReader.close();
-	                } catch (IOException e) {
-	                    e.printStackTrace();
-	                }
-	            }
-	        }
-		}
-		else
-		{
+        } catch (FileNotFoundException e) {
             response.Status = false;
-            response.Message = "Need a file name as parameter.";
-		}
+            response.Message = "File " + workingfilename + " not found.";
+        } catch (IOException e) {
+        	e.printStackTrace();
+            response.Status = false;
+            response.Message = e.getStackTrace().toString();
+        } finally {
+            if (bReader != null) {
+                try {
+                	bReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+		
 		
 		return response;
 	}
