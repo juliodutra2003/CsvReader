@@ -22,16 +22,7 @@ public class InputController {
 	static BufferedReader consoleReader;
 	static String workingFileName;
 	static Count countCommand = new Count();
-	static Show showCommand = new Show();
-	
-	public static String HelpMessage =  "Commands: \n" + 
-						   " help (show this help) \n"+
-					       " quit (quit program) \n" + 
-						   " count * (show the count of registers) \n" +
-						   " count disctint (show the total count of distinct values of a property ) \n" +
-						   " filter (show all lines where a property has the value) \n";
-	
-	
+	static Show showCommand = new Show();	
 	
 	public static void main(String... args) {
 		consoleReader = new BufferedReader(new InputStreamReader(System.in));
@@ -129,9 +120,7 @@ public class InputController {
 		{
 			case "help":
 			{
-				response.setStatus(true);
-				response.setMessage(HelpMessage);
-				View.ShowCommandOkMessage( response );
+				View.ShowHelpMessage();
 				break;
 			}
 			case "quit":
@@ -144,14 +133,14 @@ public class InputController {
 			}
 			case "show":
 			{
-				//response.showCommand.();		
-				View.ShowCommandOkMessage( response );
+				response = showCommand.Interpret(commandline);		
+				View.ShowPropertiesMessage( response );
 				break;
 			}
 			case "count":
 			{
 				response = countCommand.Interpret(commandline);
-				View.ShowCommandOkMessage( response );
+				View.ShowCountValue( response );
 				break;
 			}
 			case "filter":

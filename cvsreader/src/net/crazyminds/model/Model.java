@@ -52,7 +52,7 @@ public final class Model {
 			}
 			
 			Hashtable<String, String> lineProperties = new Hashtable<>();
-			for (int j = 0; j < lineProperties.size(); j++)
+			for (int j = 0; j < propertyNames.length; j++)
 			{
 				lineProperties.put(propertyNames[j], columns[j]);
 			}
@@ -80,9 +80,32 @@ public final class Model {
 		
 		return false;
 	}
+
 	
+	/**
+	 * Gets all property names from the model
+	 * 
+	 * @return array string of property names
+	 */
 	public String[] GetProperties() {		
 		return propertyNames;
+	}
+
+	/**
+	 * Gets the total count of distinct values for the target property
+	 * 
+	 * @return array string of property names
+	 */
+	public int GetCountDistinct(String property) {
+		
+		ArrayList<String> distinctValues = new ArrayList<>();
+		for(Hashtable<String, String> line: tableList )
+		{
+			String value = line.get(property);
+			if (!distinctValues.contains(value))
+				distinctValues.add(value);
+		}
+		return distinctValues.size();
 	}
 
 }

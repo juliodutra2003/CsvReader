@@ -22,8 +22,8 @@ public class Count implements Command {
 		{
 			int count = Model.getInstance().GetTotalCount();
 			response.setStatus(true);
-			response.setMessage(String.valueOf(count));
-			response.values = new String[]{"0"};
+			response.setMessage("");
+			response.values = String.valueOf(count);
 		}
 		else if (commandline[1] .equals("distinct"))
 		{
@@ -31,27 +31,30 @@ public class Count implements Command {
 			{
 				response.setStatus(false);
 				response.setMessage(CommandName + " need the property name as third parameter");
-				return response;
-			}
-			
-			boolean isValid = Model.getInstance().isValidProperty(commandline[2]);
-			if (!isValid)
-			{
-				response.setStatus(false);
-				response.setMessage("property is not valid: " + commandline[2]);
 				response.values = null;
 				return response;
 			}
-//			
-//			int count = Model.getInstance().GetCountDistinct(commandline[3]);
-//			response.setStatus(true);
-//			response.setMessage(String.valueOf(count));
-//			response.values = new String[]{"0"};
+			
+			String targetProperty = commandline[2];
+			boolean isValid = Model.getInstance().isValidProperty(targetProperty);
+			if (!isValid)
+			{
+				response.setStatus(false);
+				response.setMessage("property is not valid: " + targetProperty);
+				response.values = null;
+				return response;
+			}
+	
+			int count = Model.getInstance().GetCountDistinct(targetProperty);
+			response.setStatus(true);
+			response.setMessage("");
+			response.values = String.valueOf(count);
 		}
 		else
 		{
 			response.setStatus(false);
 			response.setMessage("wrong " + CommandName + " parameters");
+			response.values = null;
 		}
 
 		return response;

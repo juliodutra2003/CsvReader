@@ -8,17 +8,10 @@ public class Show implements Command{
 	@Override
 	public Response<?> Interpret(String[] commandline) {
 
-		String message = "Properties: \n";
-		message += "----------------------------------------- \n";
-		for (String s: Model.getInstance().GetProperties())
-		{
-			message += s + "\n";
-		}
-		
 		Response response = new Response<>();
 		response.setStatus(true);
-		response.values = null;
-		response.setMessage(message);
+		response.values = Model.getInstance().GetProperties();
+		response.setMessage("");
 		return response;
 	}
 
