@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import net.crazyminds.Command.Count;
+import net.crazyminds.Command.Filter;
 import net.crazyminds.Command.Show;
 import net.crazyminds.model.Model;
 import net.crazyminds.view.View;
@@ -22,7 +23,8 @@ public class InputController {
 	static BufferedReader consoleReader;
 	static String workingFileName;
 	static Count countCommand = new Count();
-	static Show showCommand = new Show();	
+	static Show showCommand = new Show();
+	static Filter filterCommand = new Filter();
 	
 	public static void main(String... args) {
 		consoleReader = new BufferedReader(new InputStreamReader(System.in));
@@ -145,9 +147,8 @@ public class InputController {
 			}
 			case "filter":
 			{
-				response.setStatus(true);
-				response.setMessage(" todo");
-				View.ShowCommandOkMessage( response );
+				response = filterCommand.Interpret(commandline);
+				View.ShowFilterValue( response );
 				break;
 			}
 			default:

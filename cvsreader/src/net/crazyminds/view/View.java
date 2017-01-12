@@ -1,5 +1,9 @@
 package net.crazyminds.view;
 
+import java.util.ArrayList;
+import java.util.Hashtable;
+
+import net.crazyminds.Command.FilterReturnValue;
 import net.crazyminds.controller.Response;
 import net.crazyminds.model.Model;
 
@@ -100,6 +104,41 @@ public class View {
 		if(response.GetStatus())
 		{
 			System.out.println(response.getValues());
+		}
+		else
+		{
+			System.out.println(response.getMessage());
+		}
+		
+	}
+	
+	/**
+	 * Prints the command FILTER info
+	 * 
+	 * @param response
+	 */
+	public static void ShowFilterValue(Response<?> response) {
+		if(response.GetStatus())
+		{
+			FilterReturnValue filterValue = (FilterReturnValue)response.getValues();
+			String filterReturnValues = "";
+			for (String s: filterValue.getPropertyNames())
+			{
+				filterReturnValues += s+",";
+			}
+			filterReturnValues = filterReturnValues.substring(0,filterReturnValues.length()-1);
+			filterReturnValues += "\n";
+			
+			for (Hashtable<String, String> line : filterValue.getLines() )
+			{
+				for(String value: line.values())
+				{
+					filterReturnValues += value+",";
+				}
+				filterReturnValues += "\n";
+			}
+			
+			System.out.println(filterReturnValues);
 		}
 		else
 		{

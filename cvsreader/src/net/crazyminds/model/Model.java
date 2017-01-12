@@ -108,4 +108,17 @@ public final class Model {
 		return distinctValues.size();
 	}
 
+	public ArrayList<Hashtable<String,String>> GetLines(String targetProperty, String targetValue) {
+ 
+		ArrayList<Hashtable<String,String>> lineArrayList = new ArrayList<>();
+		
+		for(Hashtable<String,String> hashLine : tableList)
+		{
+			if (hashLine.get(targetProperty).equals(targetValue))
+				lineArrayList.add(hashLine);
+		}
+
+		return lineArrayList;
+	}
+
 }
