@@ -196,7 +196,7 @@ public class InputController {
 		if (commandline.size() == 0)
 			return null;
 		
-		System.out.println("Sanitized: " + commandline);
+		System.out.println("Command: " + commandline);
 		return commandline.toArray(new String[commandline.size()]);
 	}
 	
