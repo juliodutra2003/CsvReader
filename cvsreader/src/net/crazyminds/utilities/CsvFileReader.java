@@ -22,12 +22,13 @@ public class CsvFileReader {
 	 * 
 	 * @param workingfilename is the name of the file to read.
 	 * @param filelines is the return of the method.
-	 * @return 
+	 * 
+	 * @return Response
 	 */
 	
-	public Response Read(String workingfilename, String[] filelines )
+	public Response<String[]> Read(String workingfilename )
 	{
-		Response response  = new Response();
+		Response<String[]> response  = new Response<String[]>();
 	
         BufferedReader bReader = null;
         String line = "";
@@ -39,18 +40,19 @@ public class CsvFileReader {
                 lines.add(line);
             }
             
-            filelines = new String[lines.size()];
+            String[] filelines = new String[lines.size()];
             filelines = lines.toArray(filelines);
-            response.Status = true;
-            response.Message = "File parsed.";
+            response.setStatus(true);
+            response.setMessage("File parsed.");
+            response.values = filelines;
 
         } catch (FileNotFoundException e) {
-            response.Status = false;
-            response.Message = "File " + workingfilename + " not found.";
+            response.setStatus(false);
+            response.setMessage("File " + workingfilename + " not found.");
         } catch (IOException e) {
         	e.printStackTrace();
-            response.Status = false;
-            response.Message = e.getStackTrace().toString();
+            response.setStatus(false);
+            response.setMessage(e.getStackTrace().toString());
         } finally {
             if (bReader != null) {
                 try {

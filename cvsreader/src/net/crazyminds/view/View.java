@@ -9,8 +9,8 @@ public class View {
 		System.out.print("> ");	
 	}
 	
-	public static void ShowFatalError(Response response ) {
-		System.out.println(response.Message);
+	public static void ShowFatalError(Response<?> response ) {
+		System.out.println(response.getMessage());
 		System.out.println("Program Terminated.");
 	}
 
@@ -23,20 +23,20 @@ public class View {
 		
 	}
 
-	public static void ShowCommandOkMessage(Response workingResponse) {
-		System.out.println(workingResponse.Message);
+	public static void ShowCommandOkMessage(Response<?> workingResponse) {
+		System.out.println(workingResponse.getMessage());
 	}
 
-	public static void ShowCommandWarningMessage(Response workingResponse) {
-		System.out.println(workingResponse.Message);
+	public static void ShowCommandWarningMessage(Response<?> workingResponse) {
+		System.out.println(workingResponse.getMessage());
 	}
 	
-	public static void ShowHelpMessage(Response workingResponse) {
-		System.out.println(workingResponse.Message);		
+	public static void ShowHelpMessage(Response<?> workingResponse) {
+		System.out.println(workingResponse.getMessage());		
 	}
 	
-	public static void ShowQuitMessage(Response workingResponse) {
-		System.out.println("Bye.");		
+	public static void ShowQuitMessage(Response<?> workingResponse) {
+		System.out.println(workingResponse.getMessage());		
 	}
 
 }

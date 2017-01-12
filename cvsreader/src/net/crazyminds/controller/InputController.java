@@ -2,8 +2,11 @@ package net.crazyminds.controller;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
-import net.crazyminds.utilities.CsvFileReader;
+import net.crazyminds.Command.Count;
+import net.crazyminds.Command.Show;
+import net.crazyminds.model.Model;
 import net.crazyminds.view.View;
 
 
@@ -18,6 +21,8 @@ public class InputController {
 	
 	static BufferedReader consoleReader;
 	static String workingFileName;
+	static Count countCommand = new Count();
+	static Show showCommand = new Show();
 	
 	public static String HelpMessage =  "Commands: \n" + 
 						   " help (show this help) \n"+
@@ -26,12 +31,14 @@ public class InputController {
 						   " count disctint (show the total count of distinct values of a property ) \n" +
 						   " filter (show all lines where a property has the value) \n";
 	
+	
+	
 	public static void main(String... args) {
 		consoleReader = new BufferedReader(new InputStreamReader(System.in));
 		 
 		Response response = new Response();
 		response = Initialize(args);
-		if (response.Status)
+		if (response.GetStatus())
 		{
 			View.ShowOpenning();	
 			readConsole();
@@ -52,11 +59,9 @@ public class InputController {
 		{	
 			workingFileName = args[0];
 			
-			CsvFileReader multiLineFileReader = new CsvFileReader();
-			String[] lines = null;
-			response = multiLineFileReader.Read(workingFileName, lines);
-			multiLineFileReader=null;
-			if (response.Status)
+			response = Model.getInstance().Initialize(workingFileName);
+			
+			if (response.GetStatus())
 			{
 				return response;
 			}
@@ -67,15 +72,14 @@ public class InputController {
 		}
 		else
 		{			 
-            response.Status = false;
-            response.Message = "Need a file name as parameter.";
+            response.setStatus(false);
+            response.setMessage("Need a file name as parameter.");
             return response;
 		}
 	}
 	
 	static void readConsole() {
-		Response workingResponse = new Response();
-	    boolean loop_cond=true;
+		boolean loop_cond=true;
 	    String input = "";
 
 	    while(loop_cond == true)
@@ -84,15 +88,7 @@ public class InputController {
 	        {
 	        	View.ShowCommandPrompt();
 	        	input = consoleReader.readLine();
-	        	workingResponse =  ProcessCommand(input);
-	            if( workingResponse.Status )
-	            {
-	            	View.ShowCommandOkMessage( workingResponse );
-	            }
-	            else
-	            {
-	            	View.ShowCommandWarningMessage( workingResponse );
-	            }
+	        	ProcessCommand(input);
 	        }
 	        catch (Exception e)
 	        {
@@ -115,46 +111,83 @@ public class InputController {
 	 *			
 	 */
 
-	private static Response ProcessCommand(String input) {
+	private static void ProcessCommand(String input) {
 		Response response = new Response();
 		String[] commandline = input.split(" ");
+		commandline = Sanitize(commandline);
 		String command = commandline[0];
+		
+		if(command == null)
+		{	
+			response.setStatus(true);
+			response.setMessage("");
+			View.ShowCommandOkMessage( response );
+			return;
+		}
 		
 		switch(command)
 		{
 			case "help":
 			{
-				response.Status = true;
-				response.Message = HelpMessage;
+				response.setStatus(true);
+				response.setMessage(HelpMessage);
+				View.ShowCommandOkMessage( response );
 				break;
 			}
 			case "quit":
 			{
-				response.Status = true;
-				response.Message = command + " Command not found";
+				response.setStatus(true);
+				response.setMessage("bye.");
 				View.ShowQuitMessage(response);
 				System.exit(0);
 				break;
 			}
+			case "show":
+			{
+				//response.showCommand.();		
+				View.ShowCommandOkMessage( response );
+				break;
+			}
 			case "count":
 			{
-				response.Status = true;
-				response.Message = command + " Command not found";
+				response = countCommand.Interpret(commandline);
+				View.ShowCommandOkMessage( response );
 				break;
 			}
 			case "filter":
 			{
-				response.Status = true;
-				response.Message = command + " Command not found";
+				response.setStatus(true);
+				response.setMessage(" todo");
+				View.ShowCommandOkMessage( response );
 				break;
 			}
 			default:
-				response.Status = false;
-				response.Message = command + " Command not found";
+				response.setStatus(false);
+				response.setMessage(command + " Command not found");
+				View.ShowCommandWarningMessage( response );
 				break;
+		}		
+	}
+	
+	
+	/**
+	 * Receives raw String[] of command line 
+	 *  
+	 * @param commandline is the name of the file to read.
+	 * 
+	 * @return return sanitized string[] line command 
+	 */
+	static String[] Sanitize(String[] commandline){
+		ArrayList<String> sanitizedCommandline = new ArrayList<String>();
+		 
+		for(String s: commandline)
+		{
+			if( !s.equals("") && !s.equals(" ") )
+			{
+				sanitizedCommandline.add(s);
+			}
 		}
 		
-		return response;
-		
+		return sanitizedCommandline.toArray(commandline);		
 	}
 }
