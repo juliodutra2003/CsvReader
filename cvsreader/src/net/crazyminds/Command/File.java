@@ -30,14 +30,14 @@ public class File  implements Command  {
 				return response;
 			}
 			
-			ArrayList<Hashtable<String, String>> lines = Model.getInstance().GetLines(countParam);
+			ArrayList<ArrayList<String>> lines = Model.getInstance().GetLines(countParam);
 			response.setStatus(true);
 			response.setMessage("");
 			response.setValues(new ListReturnValue(Model.getInstance().GetProperties(),  lines ));
 			return response;
 		}
 		
-		ArrayList<Hashtable<String, String>> lines = Model.getInstance().GetLines();
+		ArrayList<ArrayList<String>> lines = Model.getInstance().GetLines();
 		response.setStatus(true);
 		response.setMessage("");
 		response.setValues(new ListReturnValue(Model.getInstance().GetProperties(),  lines ));	

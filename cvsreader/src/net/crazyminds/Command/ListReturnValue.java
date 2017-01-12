@@ -6,10 +6,10 @@ import java.util.Hashtable;
 public class ListReturnValue {
 	
 	private String[] propertyNames;
-	private ArrayList<Hashtable<String,String>> lines;
+	private ArrayList<ArrayList<String>> lines;
 	
 	
-	public ListReturnValue(String[] propertyNames, ArrayList<Hashtable<String,String>> lines)
+	public ListReturnValue(String[] propertyNames, ArrayList<ArrayList<String>> lines)
 	{
 		this.propertyNames = propertyNames;
 		this.lines = lines;
@@ -26,12 +26,12 @@ public class ListReturnValue {
 	}
 
 
-	public ArrayList<Hashtable<String, String>> getLines() {
+	public ArrayList<ArrayList<String>> getLines() {
 		return lines;
 	}
 
 
-	public void setLines(ArrayList<Hashtable<String, String>> lines) {
+	public void setLines(ArrayList<ArrayList<String>> lines) {
 		this.lines = lines;
 	}
 

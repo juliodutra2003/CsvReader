@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
+import datasource.DataProvider;
 import net.crazyminds.controller.Response;
 import net.crazyminds.utilities.CsvFileReader;
 
@@ -11,7 +12,7 @@ public final class Model {
 	
 	private static Model instance;
 	
-	ArrayList<Hashtable<String, String>> tableList = new ArrayList<Hashtable<String, String>>();
+	ArrayList<ArrayList<String>> tableList = new ArrayList<ArrayList<String>>();
 	String[] propertyNames;
 	
 	private Model()
@@ -29,35 +30,23 @@ public final class Model {
 	public Response Initialize(String workingFileName)
 	{
 		Response response = new Response();
-		CsvFileReader multiLineFileReader = new CsvFileReader();
-		String[] lines = null;
-		response = multiLineFileReader.Read(workingFileName);
-		if(!response.GetStatus())
-			return response;
-		lines = (String[]) response.getValues();
-		multiLineFileReader=null;		
 		
-		propertyNames = lines[0].split(",");
+		DataProvider dataProvider = new DataProvider();
+		response = dataProvider.Provide(workingFileName);
 		
-		for (int i = 1; i < lines.length; i++)
+		ArrayList<ArrayList<String>> lines = (ArrayList<ArrayList<String>>) response.getValues();
+		
+		ArrayList<String> captionline =  lines.get(0);	
+		propertyNames = new String[captionline.size()];
+		for (int i = 0; i < captionline.size() ; i++)
 		{
-			String line = lines[i];
-			String[] columns = line.split(",");
-			
-			if(columns.length != propertyNames.length )
-			{
-				response.setStatus(false);
-				response.setMessage("There is an error on line " +i);
-				return response;
-			}
-			
-			Hashtable<String, String> lineProperties = new Hashtable<>();
-			for (int j = 0; j < propertyNames.length; j++)
-			{
-				lineProperties.put(propertyNames[j], columns[j]);
-			}
-			
-			tableList.add(lineProperties);
+			propertyNames[i] = captionline.get(i);
+		}
+		
+		
+		for (int i = 1; i < lines.size(); i++)
+		{	
+			tableList.add(lines.get(i));
 		}
 		
 		response.setStatus(true);
@@ -98,12 +87,14 @@ public final class Model {
 	 * 
 	 * @return array string of property names
 	 */
-	public int GetCountDistinct(String property) {
+	public int GetCountDistinct(String targetProperty) {
+		
+		int propertyIndex = GetPropertyCaptionIndex(targetProperty);
 		
 		ArrayList<String> distinctValues = new ArrayList<>();
-		for(Hashtable<String, String> line: tableList )
+		for(ArrayList<String> line: tableList )
 		{
-			String value = line.get(property);
+			String value = line.get(propertyIndex);
 			if (!distinctValues.contains(value))
 				distinctValues.add(value);
 		}
@@ -116,16 +107,17 @@ public final class Model {
 	 * @param targetProperty the property target to search 
 	 * @param targetValue the target value to compare
 	 * 
-	 * @return array list of Hashtable<String,String>. Each Hashtable represents a line.
+	 * @return ArrayList<ArrayList<String>> . Each ArrayList represents an ArrayList<String>> (line).
 	 */
-	public ArrayList<Hashtable<String,String>> GetLines(String targetProperty, String targetValue) {
+	public ArrayList<ArrayList<String>>  GetLines(String targetProperty, String targetValue) {
  
-		ArrayList<Hashtable<String,String>> lineArrayList = new ArrayList<>();
+		int propertyIndex = GetPropertyCaptionIndex(targetProperty);
+		ArrayList<ArrayList<String>> lineArrayList = new ArrayList<ArrayList<String>>();
 		
-		for(Hashtable<String,String> hashLine : tableList)
+		for(ArrayList<String> line : tableList)
 		{
-			if (hashLine.get(targetProperty).equals(targetValue))
-				lineArrayList.add(hashLine);
+			if (line.get(propertyIndex).equals(targetValue))
+				lineArrayList.add(line);
 		}
 
 		return lineArrayList;
@@ -135,9 +127,9 @@ public final class Model {
 	/**
 	 * Gets the all lines
 	 * 	 * 
-	 * @return array list of Hashtable<String,String>. Each Hashtable represents a line.
+	 * @return ArrayList<ArrayList<String>> . Each ArrayList represents an ArrayList<String>> (line).
 	 */
-	public ArrayList<Hashtable<String, String>> GetLines() {		
+	public ArrayList<ArrayList<String>> GetLines() {		
 		return tableList;
 	}
 
@@ -147,18 +139,34 @@ public final class Model {
 	 * 
 	 * @param countParam amount of lines to return
 	 * 
-	 * @return array list of Hashtable<String,String>. Each Hashtable represents a line.
+	 * @return ArrayList of ArrayList<String> . Each ArrayList<String> represents a line.
 	 */
-	public ArrayList<Hashtable<String, String>> GetLines(int countParam) {
+	public ArrayList<ArrayList<String>> GetLines(int countParam) {
 		int amount  = (tableList.size() > countParam)?countParam:tableList.size();
 		
-		ArrayList<Hashtable<String,String>> list = new ArrayList<>();
+		ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
 		for (int i = 0 ; i < amount; i++)
 		{
 			list.add(tableList.get(i));
 		}
 		
 		return list;
+	}
+	
+	
+	private int GetPropertyCaptionIndex(String caption)
+	{
+		for (int i = 0 ; i < propertyNames.length; i++)
+		{
+			if (propertyNames[i].equals(caption))
+				return i;
+		}
+		
+		
+		//error
+		System.out.println("UNEXPECTED ERROR, contact the developer.");
+		return 0;
+		
 	}
 
 }

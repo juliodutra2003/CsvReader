@@ -35,7 +35,7 @@ public class Filter implements Command {
 				return response;
 		}	
 		
-		ArrayList<Hashtable<String, String>> lines = Model.getInstance().GetLines(targetProperty , targetValue);
+		ArrayList<ArrayList<String>> lines = Model.getInstance().GetLines(targetProperty , targetValue);
 		response.setStatus(true);
 		response.setMessage("");
 		response.setValues(new ListReturnValue(Model.getInstance().GetProperties(),  lines ));		
