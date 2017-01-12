@@ -135,6 +135,7 @@ public class View {
 				{
 					filterReturnValues += value+",";
 				}
+				filterReturnValues = filterReturnValues.substring(0 , filterReturnValues.length() -1 );
 				filterReturnValues += "\n";
 			}
 			
