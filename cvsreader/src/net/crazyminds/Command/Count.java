@@ -23,7 +23,7 @@ public class Count implements Command {
 			int count = Model.getInstance().GetTotalCount();
 			response.setStatus(true);
 			response.setMessage("");
-			response.values = String.valueOf(count);
+			response.setValues(String.valueOf(count));
 		}
 		else if (commandline[1] .equals("distinct"))
 		{
@@ -31,7 +31,7 @@ public class Count implements Command {
 			{
 				response.setStatus(false);
 				response.setMessage(CommandName + " need the property name as third parameter");
-				response.values = null;
+				response.setValues(null);
 				return response;
 			}
 			
@@ -41,20 +41,20 @@ public class Count implements Command {
 			{
 				response.setStatus(false);
 				response.setMessage("property is not valid: " + targetProperty);
-				response.values = null;
+				response.setValues(null);
 				return response;
 			}
 	
 			int count = Model.getInstance().GetCountDistinct(targetProperty);
 			response.setStatus(true);
 			response.setMessage("");
-			response.values = String.valueOf(count);
+			response.setValues(String.valueOf(count));
 		}
 		else
 		{
 			response.setStatus(false);
 			response.setMessage("wrong " + CommandName + " parameters");
-			response.values = null;
+			response.setValues(null);
 		}
 
 		return response;

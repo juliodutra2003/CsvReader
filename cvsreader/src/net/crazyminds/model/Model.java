@@ -34,7 +34,7 @@ public final class Model {
 		response = multiLineFileReader.Read(workingFileName);
 		if(!response.GetStatus())
 			return response;
-		lines = (String[]) response.values;
+		lines = (String[]) response.getValues();
 		multiLineFileReader=null;		
 		
 		propertyNames = lines[0].split(",");

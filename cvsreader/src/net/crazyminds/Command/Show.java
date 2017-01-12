@@ -10,7 +10,7 @@ public class Show implements Command{
 
 		Response response = new Response<>();
 		response.setStatus(true);
-		response.values = Model.getInstance().GetProperties();
+		response.setValues(Model.getInstance().GetProperties());
 		response.setMessage("");
 		return response;
 	}

@@ -83,7 +83,7 @@ public class View {
 	public static void ShowPropertiesMessage(Response response) {
 		String message = "Properties: \n";
 		message += "----------------------------------------- \n";
-		for (String s: (String[])response.values)
+		for (String s: (String[])response.getValues())
 		{
 			message += s + "\n";
 		}

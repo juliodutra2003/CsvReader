@@ -44,7 +44,7 @@ public class CsvFileReader {
             filelines = lines.toArray(filelines);
             response.setStatus(true);
             response.setMessage("File parsed.");
-            response.values = filelines;
+            response.setValues(filelines);
 
         } catch (FileNotFoundException e) {
             response.setStatus(false);

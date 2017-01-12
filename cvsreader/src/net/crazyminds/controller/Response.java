@@ -3,10 +3,7 @@ package net.crazyminds.controller;
 public class Response<T> {
 	private boolean Status;
 	private String Message;
-	public T values;
-	
-	
-	
+	private T values;	
 	
 	public String getMessage() {
 		return Message;
