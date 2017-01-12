@@ -94,6 +94,8 @@ public final class Model {
 	/**
 	 * Gets the total count of distinct values for the target property
 	 * 
+	 * @param property the property target to count distinct values 
+	 * 
 	 * @return array string of property names
 	 */
 	public int GetCountDistinct(String property) {
@@ -107,7 +109,15 @@ public final class Model {
 		}
 		return distinctValues.size();
 	}
-
+	
+	/**
+	 * Gets the lines containing the target value as target property
+	 * 
+	 * @param targetProperty the property target to search 
+	 * @param targetValue the target value to compare
+	 * 
+	 * @return array list of Hashtable<String,String>. Each Hashtable represents a line.
+	 */
 	public ArrayList<Hashtable<String,String>> GetLines(String targetProperty, String targetValue) {
  
 		ArrayList<Hashtable<String,String>> lineArrayList = new ArrayList<>();
