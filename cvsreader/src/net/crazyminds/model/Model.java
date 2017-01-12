@@ -11,7 +11,7 @@ public final class Model {
 	
 	private static Model instance;
 	
-	List<Hashtable<String, String>> tableList = new ArrayList<Hashtable<String, String>>();
+	ArrayList<Hashtable<String, String>> tableList = new ArrayList<Hashtable<String, String>>();
 	String[] propertyNames;
 	
 	private Model()
@@ -129,6 +129,36 @@ public final class Model {
 		}
 
 		return lineArrayList;
+	}
+	
+	
+	/**
+	 * Gets the all lines
+	 * 	 * 
+	 * @return array list of Hashtable<String,String>. Each Hashtable represents a line.
+	 */
+	public ArrayList<Hashtable<String, String>> GetLines() {		
+		return tableList;
+	}
+
+	
+	/**
+	 * Gets the all lines
+	 * 
+	 * @param countParam amount of lines to return
+	 * 
+	 * @return array list of Hashtable<String,String>. Each Hashtable represents a line.
+	 */
+	public ArrayList<Hashtable<String, String>> GetLines(int countParam) {
+		int amount  = (tableList.size() > countParam)?countParam:tableList.size();
+		
+		ArrayList<Hashtable<String,String>> list = new ArrayList<>();
+		for (int i = 0 ; i < amount; i++)
+		{
+			list.add(tableList.get(i));
+		}
+		
+		return list;
 	}
 
 }

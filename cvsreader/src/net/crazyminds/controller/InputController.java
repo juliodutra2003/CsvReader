@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.function.Consumer;
 
 import net.crazyminds.Command.Count;
+import net.crazyminds.Command.File;
 import net.crazyminds.Command.Filter;
 import net.crazyminds.Command.Show;
 import net.crazyminds.model.Model;
@@ -26,6 +27,7 @@ public class InputController {
 	static String workingFileName;
 	static Count countCommand = new Count();
 	static Show showCommand = new Show();
+	static File fileCommand = new File();
 	static Filter filterCommand = new Filter();
 	
 	public static void main(String... args) {
@@ -147,6 +149,12 @@ public class InputController {
 				View.ShowCountValue( response );
 				break;
 			}
+			case "file":
+			{
+				response = fileCommand.Interpret(commandline);
+				View.ShowFile(response );
+				break;
+			}
 			case "filter":
 			{
 				response = filterCommand.Interpret(commandline);
@@ -175,63 +183,84 @@ public class InputController {
 		if(input.equals(null)||input.equals(""))
 			return null;
 		
-		String[] inputSplited = input.split("\\s");
-		
-		if(inputSplited.length > 0)//add command
+		ArrayList<String> commandline = new ArrayList<String>();
+		String inputStream = input;
+		while (inputStream.length() > 0)
 		{
-			ArrayList<String> commandline = new ArrayList<String>();
-			
-			commandline.add(inputSplited[0]); //add first parameter
-			if(inputSplited.length > 1)
-			{
-				commandline.add(inputSplited[1]);	
-				
-				if(inputSplited.length > 2) //add rest of comandline
-				{
-					for (int i = 2 ; i < inputSplited.length; i++ )
-						commandline.add(inputSplited[i]);
-				}	
-			}	
-			//return valid command
-			return commandline.toArray(new String[commandline.size()]);
+			ExtratedParam extracted = ExtractParam(inputStream);
+			inputStream = extracted.stream;
+			if(extracted.paramameter != null)
+				commandline.add(extracted.paramameter);
 		}
-		else //return invalid command
-		{
+		
+		if (commandline.size() == 0)
 			return null;
-		}
 		
-//		ArrayList<String> sanitizedCommandline = new ArrayList<String>();
-//		 
-//		System.out.print("sanitizedCommandline: raw commandline ");
-//		for (String c: commandline)
-//		{
-//			System.out.print(c+",");
-//		}
-//		System.out.println("");
-//		
-//		for(String s: commandline)
-//		{
-//			if( s.contains("'") )
-//			{
-//				int firstIndex = s.indexOf("'");
-//				int lastIndex = s.lastIndexOf("'");
-//				if(firstIndex < lastIndex)
-//				{
-//					sanitizedCommandline.add(s.substring(firstIndex+1, lastIndex));
-//				}
-//				else //command invalid
-//				{
-//					sanitizedCommandline.add(s);
-//				}
-//			}
-//			else if( !s.equals("") && !s.equals(" ") )
-//			{
-//				sanitizedCommandline.add(s);
-//			}
-//		}
-//		
-//		System.out.println("sanitizedCommandline: " + sanitizedCommandline);
-//		
-//		return sanitizedCommandline.toArray(commandline);		
+		System.out.println("Sanitized: " + commandline);
+		return commandline.toArray(new String[commandline.size()]);
+	}
+	
+	
+	/**
+	 * This method extracts the first parameter found in the input string.
+	 * 
+	 * @param stream input string to be processed
+	 * 
+	 * @return ExtratedParam object with the parameter extracted (parameter) and the resultant stream (stream)
+	 * 
+	 * more: the original string has your content modified. the string parameter returned is removed.
+	 */
+
+	private static ExtratedParam ExtractParam(String stream) {
+
+		ExtratedParam extratedParam = new ExtratedParam();
+		
+		//extracting space
+		if (stream.charAt(0) == ' ')
+		{
+			extratedParam.stream = stream.substring(1,stream.length());
+			extratedParam.paramameter = null;
+		}
+		//extracting param with multiple words between especial character(')
+		else if (stream.charAt(0) == '\'')
+		{
+			String finalChar = "";
+			Character nextChar = stream.charAt(0);
+			int charIndex = 1;			
+			while(charIndex < stream.length() && stream.charAt(charIndex) != '\'')
+			{
+				nextChar = stream.charAt(charIndex);	
+				finalChar += nextChar;
+				charIndex ++;	
+			};			
+			extratedParam.paramameter = (finalChar.equals("")?null:finalChar);
+			extratedParam.stream = stream.substring(charIndex, stream.length());
+		}
+		//extracting single world param
+		else
+		{
+			String finalChar = "";
+			Character nextChar = stream.charAt(0);
+			int charIndex = 0;
+			while (nextChar != ' ' )
+			{
+				finalChar += nextChar;
+				charIndex ++;
+				if(charIndex == stream.length() )
+					break;				
+				nextChar = stream.charAt(charIndex);	
+			}
+			
+			extratedParam.paramameter = finalChar;
+			extratedParam.stream = stream.substring(charIndex, stream.length());
+		}		
+		
+		return extratedParam;
+	}
+	
+	private static class ExtratedParam
+	{		
+		String stream;
+		String paramameter;
 	}
 }

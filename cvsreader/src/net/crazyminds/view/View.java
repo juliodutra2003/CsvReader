@@ -3,7 +3,7 @@ package net.crazyminds.view;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import net.crazyminds.Command.FilterReturnValue;
+import net.crazyminds.Command.ListReturnValue;
 import net.crazyminds.controller.Response;
 import net.crazyminds.model.Model;
 
@@ -13,6 +13,8 @@ public class View {
 			   " help (show this help) \n"+
 		       " quit (quit program) \n" + 
 		       " show (show all valid properties) \n"+
+		       " file (show all lines) \n"+
+		       " file count (show a set of lines, if a max count equals to count) \n"+
 			   " count * (show the count of registers) \n" +
 			   " count disctint (show the total count of distinct values of a property ) \n" +
 			   " filter (show all lines where a property has the value) \n";
@@ -94,6 +96,42 @@ public class View {
 		System.out.println(message);		
 	}
 	
+	/**
+	 * Prints the command FILE info, prints the file
+	 * 
+	 * @param response
+	 */
+	public static void ShowFile(Response<?> response) {
+		if(response.GetStatus())
+		{
+			ListReturnValue filterValue = (ListReturnValue)response.getValues();
+			String filterReturnValues = "";
+			for (String s: filterValue.getPropertyNames())
+			{
+				filterReturnValues += s+",";
+			}
+			filterReturnValues = filterReturnValues.substring(0,filterReturnValues.length()-1);
+			filterReturnValues += "\n";
+			
+			for (Hashtable<String, String> line : filterValue.getLines() )
+			{
+				for(String value: line.values())
+				{
+					filterReturnValues += value+",";
+				}
+				filterReturnValues = filterReturnValues.substring(0 , filterReturnValues.length() -1 );
+				filterReturnValues += "\n";
+			}
+			
+			System.out.println(filterReturnValues);
+		}
+		else
+		{
+			System.out.println(response.getMessage());
+		}
+		
+	}
+	
 	
 	/**
 	 * Prints the command COUNT info
@@ -120,7 +158,7 @@ public class View {
 	public static void ShowFilterValue(Response<?> response) {
 		if(response.GetStatus())
 		{
-			FilterReturnValue filterValue = (FilterReturnValue)response.getValues();
+			ListReturnValue filterValue = (ListReturnValue)response.getValues();
 			String filterReturnValues = "";
 			for (String s: filterValue.getPropertyNames())
 			{
