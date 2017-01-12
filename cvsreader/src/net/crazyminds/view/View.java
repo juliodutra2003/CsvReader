@@ -16,8 +16,8 @@ public class View {
 		       " file (show all lines) \n"+
 		       " file count (show a set of lines, if a max count equals to count) \n"+
 			   " count * (show the count of registers) \n" +
-			   " count disctint (show the total count of distinct values of a property ) \n" +
-			   " filter (show all lines where a property has the value) \n";
+			   " count disctint property(show the total count of [distinct] values of a [property] ) \n" +
+			   " filter property value (show all lines where a [property] has the [value]) \n";
 	
 
 	public static void ShowCommandPrompt() {
@@ -104,18 +104,18 @@ public class View {
 	public static void ShowFile(Response<?> response) {
 		if(response.GetStatus())
 		{
-			ListReturnValue filterValue = (ListReturnValue)response.getValues();
+			ListReturnValue list = (ListReturnValue)response.getValues();
 			String filterReturnValues = "";
-			for (String s: filterValue.getPropertyNames())
+			for (String s: list.getPropertyNames())
 			{
 				filterReturnValues += s+",";
 			}
 			filterReturnValues = filterReturnValues.substring(0,filterReturnValues.length()-1);
 			filterReturnValues += "\n";
 			
-			for (Hashtable<String, String> line : filterValue.getLines() )
+			for (ArrayList<String> line : list.getLines() )
 			{
-				for(String value: line.values())
+				for(String value: line)
 				{
 					filterReturnValues += value+",";
 				}
@@ -167,9 +167,9 @@ public class View {
 			filterReturnValues = filterReturnValues.substring(0,filterReturnValues.length()-1);
 			filterReturnValues += "\n";
 			
-			for (Hashtable<String, String> line : filterValue.getLines() )
+			for (ArrayList<String> line : filterValue.getLines() )
 			{
-				for(String value: line.values())
+				for(String value: line)
 				{
 					filterReturnValues += value+",";
 				}
