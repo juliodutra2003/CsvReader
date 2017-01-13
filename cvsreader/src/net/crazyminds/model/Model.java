@@ -34,6 +34,9 @@ public final class Model {
 		DataProvider dataProvider = new DataProvider();
 		response = dataProvider.Provide(workingFileName);
 		
+		if(!response.GetStatus())
+			return response;			
+		
 		ArrayList<ArrayList<String>> lines = (ArrayList<ArrayList<String>>) response.getValues();
 		
 		ArrayList<String> captionline =  lines.get(0);	

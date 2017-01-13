@@ -1,21 +1,18 @@
 package net.crazyminds.utilities;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import net.crazyminds.controller.Response;
 
-public class CsvFileReader {
-	
-	
-	public CsvFileReader()
-	{
-		
-	}
-	
+public class CsvFileReader implements FileReader {
+
+
+
 	/**
 	 * Read a csv file and return as an array of strings. 
 	 * Each line of the file corresponds to a roll in the array.
@@ -25,16 +22,16 @@ public class CsvFileReader {
 	 * 
 	 * @return Response
 	 */
-	
+	@Override
 	public Response<ArrayList<ArrayList<String>>> Read(String workingfilename )
 	{
 		Response<ArrayList<ArrayList<String>>> response  = new Response<ArrayList<ArrayList<String>>>();
 	
-        BufferedReader bReader = null;
+		BufferedReader bReader = null;
         String line = "";
         ArrayList<ArrayList<String>> lines = new ArrayList<ArrayList<String>>();
         try {
-        	bReader = new BufferedReader(new FileReader(workingfilename));
+        	bReader = new BufferedReader(new InputStreamReader( new FileInputStream(workingfilename), "UTF-8"));
             while ((line = bReader.readLine()) != null) {
 
                 lines.add(parseLine(line));
@@ -144,6 +141,5 @@ public class CsvFileReader {
 
         return result;
     }
-
 }
 
