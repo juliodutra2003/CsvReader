@@ -12,8 +12,13 @@ public final class Model {
 	
 	private static Model instance;
 	
+	//MEMORY OPTIMIZATION: using primitive types, using array-based structures to minimize objects in memory
 	ArrayList<ArrayList<String>> tableList = new ArrayList<ArrayList<String>>();
 	String[] propertyNames;
+	
+	//MEMORY OPTIMIZATION:reusable pool
+	ArrayList<String> stringArrayWorkingPool = new ArrayList<>();
+	ArrayList<ArrayList<String>> lineArrayList = new ArrayList<ArrayList<String>>();
 	
 	private Model()
 	{}
@@ -93,15 +98,15 @@ public final class Model {
 	public int GetCountDistinct(String targetProperty) {
 		
 		int propertyIndex = GetPropertyCaptionIndex(targetProperty);
+		stringArrayWorkingPool.clear();
 		
-		ArrayList<String> distinctValues = new ArrayList<>();
 		for(ArrayList<String> line: tableList )
 		{
 			String value = line.get(propertyIndex);
-			if (!distinctValues.contains(value))
-				distinctValues.add(value);
+			if (!stringArrayWorkingPool.contains(value))
+				stringArrayWorkingPool.add(value);
 		}
-		return distinctValues.size();
+		return stringArrayWorkingPool.size();
 	}
 	
 	/**
@@ -115,7 +120,7 @@ public final class Model {
 	public ArrayList<ArrayList<String>>  GetLines(String targetProperty, String targetValue) {
  
 		int propertyIndex = GetPropertyCaptionIndex(targetProperty);
-		ArrayList<ArrayList<String>> lineArrayList = new ArrayList<ArrayList<String>>();
+		lineArrayList.clear();
 		
 		for(ArrayList<String> line : tableList)
 		{
@@ -146,14 +151,14 @@ public final class Model {
 	 */
 	public ArrayList<ArrayList<String>> GetLines(int countParam) {
 		int amount  = (tableList.size() > countParam)?countParam:tableList.size();
+		lineArrayList.clear();
 		
-		ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
 		for (int i = 0 ; i < amount; i++)
 		{
-			list.add(tableList.get(i));
+			lineArrayList.add(tableList.get(i));
 		}
 		
-		return list;
+		return lineArrayList;
 	}
 	
 	

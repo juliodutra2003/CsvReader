@@ -16,6 +16,8 @@ import net.crazyminds.utilities.CsvFileReader;
  * Optimizations:
  * For performance optimization the source file is read only one time. Data is maintain in memory by model layer for speed.
  * FileReader object is destroyed after the file is read to free memory. 
+ * 
+ * Paginated file reading was not used for performance and responsiveness. 
  */
 
 public class DataProvider {
