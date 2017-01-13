@@ -21,19 +21,7 @@ public class ListReturnValue {
 	}
 
 
-	public void setPropertyNames(String[] propertyNames) {
-		this.propertyNames = propertyNames;
-	}
-
-
 	public ArrayList<ArrayList<String>> getLines() {
 		return lines;
-	}
-
-
-	public void setLines(ArrayList<ArrayList<String>> lines) {
-		this.lines = lines;
-	}
-
-	
+	}	
 }
