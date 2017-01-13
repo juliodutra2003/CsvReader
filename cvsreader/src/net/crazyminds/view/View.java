@@ -1,11 +1,20 @@
 package net.crazyminds.view;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
-
 import net.crazyminds.Command.ListReturnValue;
 import net.crazyminds.controller.Response;
-import net.crazyminds.model.Model;
+
+/**
+ *  
+ * @author julio
+ * 
+ * View Layer - Responsible for showing the results in the interface
+ * 
+ * 
+ * Optimizations:
+ * No list or objects are explicitly created to not compromise memory.
+ * 
+ */
 
 public class View {
 	
@@ -87,13 +96,12 @@ public class View {
 	 * @param response
 	 */
 	public static void ShowPropertiesMessage(Response response) {
-		String message = "Properties: \n";
-		message += "----------------------------------------- \n";
+		System.out.println("Properties:");
+		System.out.println( "----------------------------------------- ");
 		for (String s: (String[])response.getValues())
 		{
-			message += s + "\n";
-		}
-		System.out.println(message);		
+			System.out.println( s );
+		}	
 	}
 	
 	/**
@@ -105,25 +113,24 @@ public class View {
 		if(response.GetStatus())
 		{
 			ListReturnValue list = (ListReturnValue)response.getValues();
-			String filterReturnValues = "";
 			for (String s: list.getPropertyNames())
 			{
-				filterReturnValues += s+",";
+				if (list.getPropertyNames()[list.getPropertyNames().length-1] == s)
+					System.out.println( s);
+				else
+					System.out.print( s+",");
 			}
-			filterReturnValues = filterReturnValues.substring(0,filterReturnValues.length()-1);
-			filterReturnValues += "\n";
 			
 			for (ArrayList<String> line : list.getLines() )
 			{
 				for(String value: line)
 				{
-					filterReturnValues += value+",";
+					if (line.get(line.size() - 1) == value)
+						System.out.println( value);
+					else
+						System.out.print( value+",");
 				}
-				filterReturnValues = filterReturnValues.substring(0 , filterReturnValues.length() -1 );
-				filterReturnValues += "\n";
 			}
-			
-			System.out.println(filterReturnValues);
 		}
 		else
 		{
@@ -159,25 +166,25 @@ public class View {
 		if(response.GetStatus())
 		{
 			ListReturnValue filterValue = (ListReturnValue)response.getValues();
-			String filterReturnValues = "";
+			
 			for (String s: filterValue.getPropertyNames())
 			{
-				filterReturnValues += s+",";
+				if (filterValue.getPropertyNames()[filterValue.getPropertyNames().length - 1] == s)
+					System.out.println( s);
+				else
+					System.out.print( s+",");
 			}
-			filterReturnValues = filterReturnValues.substring(0,filterReturnValues.length()-1);
-			filterReturnValues += "\n";
 			
 			for (ArrayList<String> line : filterValue.getLines() )
 			{
 				for(String value: line)
 				{
-					filterReturnValues += value+",";
+					if (line.get(line.size() - 1) == value)
+						System.out.println( value);
+					else
+						System.out.print( value+",");
 				}
-				filterReturnValues = filterReturnValues.substring(0 , filterReturnValues.length() -1 );
-				filterReturnValues += "\n";
 			}
-			
-			System.out.println(filterReturnValues);
 		}
 		else
 		{

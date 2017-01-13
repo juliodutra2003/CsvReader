@@ -15,8 +15,8 @@ Use the following commands as showing below:
 * file (show all lines)
 * file count (show a set of lines, if a max count equals to count) 
 * count * (show the count of registers) 
-* count disctint [propertyname] (show the total count of [distinct] values of a [property] ) 
-* filter property [value] (show all lines where a [property] has the [value])
+* count disctint _propertyname_ (show the total count of [distinct] values of a [property] ) 
+* filter property _value_ (show all lines where a [property] has the [value])
 
 
 ## TODO:
