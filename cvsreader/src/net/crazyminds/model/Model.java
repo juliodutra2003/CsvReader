@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-import datasource.DataProvider;
 import net.crazyminds.controller.Response;
+import net.crazyminds.datasource.DataProvider;
 import net.crazyminds.utilities.CsvFileReader;
 
 public final class Model {

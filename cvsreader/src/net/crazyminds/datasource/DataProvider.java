@@ -1,4 +1,4 @@
-package datasource;
+package net.crazyminds.datasource;
 
 import net.crazyminds.controller.Response;
 import net.crazyminds.utilities.CsvFileReader;
