@@ -5,6 +5,10 @@ In the current version, CsvReader supports only .csv files, but can be extended 
 
 ## How to use:
 
+Run the generated .jar file by passing in the name of your data source file, like the image below:
+![GitHub Logo](https://i.gyazo.com/1c938c56eb843ad6913cc21f2b88b3e0.png)
+
+Use the following commands as showing below:
 * help (show help menu)
 * quit (quit program)
 * show (show all valid properties)
