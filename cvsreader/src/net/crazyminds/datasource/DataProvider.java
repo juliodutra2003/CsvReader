@@ -11,6 +11,11 @@ import net.crazyminds.utilities.CsvFileReader;
  * This class knows what source to use to get data from file name extension
  * 
  * workingFileName is the filename
+ * 
+ * 
+ * Optimizations:
+ * For performance optimization the source file is read only one time. Data is maintain in memory by model layer for speed.
+ * FileReader object is destroyed after the file is read to free memory. 
  */
 
 public class DataProvider {
