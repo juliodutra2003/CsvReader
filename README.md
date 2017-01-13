@@ -3,7 +3,7 @@
 CsvReader is a JAVA command line software designed to read, parse, and query files.
 In the current version, CsvReader supports only .csv files, but can be extended to support other formats.
 
-# How to use:
+## How to use:
 
 * help (show help menu)
 * quit (quit program)
@@ -13,3 +13,9 @@ In the current version, CsvReader supports only .csv files, but can be extended 
 * count * (show the count of registers) 
 * count disctint property (show the total count of [distinct] values of a [property] ) 
 * filter property value (show all lines where a [property] has the [value])
+
+
+## TODO:
+* List of files to read and operate, instead of directly read from command line as a parameter;
+* Support to XML files
+* Support to JSON files
