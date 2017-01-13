@@ -16,8 +16,8 @@ public class View {
 		       " file (show all lines) \n"+
 		       " file count (show a set of lines, if a max count equals to count) \n"+
 			   " count * (show the count of registers) \n" +
-			   " count disctint property(show the total count of [distinct] values of a [property] ) \n" +
-			   " filter property value (show all lines where a [property] has the [value]) \n";
+			   " count disctint [propertyname] (show the total count of [distinct] values of a [property] ) \n" +
+			   " filter property [value] (show all lines where a [property] has the [value]) \n";
 	
 
 	public static void ShowCommandPrompt() {
