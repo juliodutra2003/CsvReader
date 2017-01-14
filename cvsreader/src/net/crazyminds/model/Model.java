@@ -66,12 +66,11 @@ public final class Model {
 
 	public boolean isValidProperty(String name) {
 		
-		for (String s: propertyNames)
+		for (int i = 0; i < propertyNames.length; i++)
 		{
-			if (s.equals(name))
+			if (propertyNames[i].equals(name))
 				return true;
-		}
-		
+		}		
 		return false;
 	}
 
