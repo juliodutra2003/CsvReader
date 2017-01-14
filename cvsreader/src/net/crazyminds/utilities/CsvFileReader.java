@@ -32,13 +32,13 @@ public class CsvFileReader implements FileReader {
         ArrayList<ArrayList<String>> lines = new ArrayList<ArrayList<String>>();
         try {
         	bReader = new BufferedReader(new InputStreamReader( new FileInputStream(workingfilename), "UTF-8"));
-            while ((line = bReader.readLine()) != null) {
-
+            while ((line = bReader.readLine()) != null) 
+            {
                 lines.add(parseLine(line));
             }
             
             response.setStatus(true);
-            response.setMessage("File parsed.");
+            response.setMessage("File parsed.");            
             response.setValues(lines);
 
         } catch (FileNotFoundException e) {
@@ -62,84 +62,102 @@ public class CsvFileReader implements FileReader {
 	}
 	
 	
+	/**
+	 * Parses each line of the csv file
+	 * 
+	 * 
+	 * @param cvsLine raw file line like (city,car,house)
+	 * @return ArrayList<String>, which contains the strings of the line
+	 * 
+	 * ps:if a line is empty, returns null 
+	 * ps2: \r = CR (Carriage Return) // Used as a new line character in Mac OS before X
+	 *		\n = LF (Line Feed) // Used as a new line character in Unix/Mac OS X
+	 *		\r\n = CR + LF // Used as a new line character in Windows
+	 */
 
 	public static ArrayList<String> parseLine(String cvsLine ) {
 
-		 char separators = ',';
-		 char customQuote = '"';
+		 char charSeparator = ',';
+		 char customCharQuote = '"';
 		 
-		ArrayList<String> result = new ArrayList<>();
+		ArrayList<String> line = new ArrayList<>();
 
         //if empty, return!
         if (cvsLine == null && cvsLine.isEmpty()) {
-            return result;
+            return line;
         }
 
-        StringBuffer curVal = new StringBuffer();
+        StringBuffer stringBuffer = new StringBuffer();
         boolean inQuotes = false;
         boolean startCollectChar = false;
         boolean doubleQuotesInColumn = false;
 
         char[] chars = cvsLine.toCharArray();
 
-        for (char ch : chars) {
-
-            if (inQuotes) {
+        for (char ch : chars)
+        {
+            if (inQuotes)
+            {
                 startCollectChar = true;
-                if (ch == customQuote) {
+                if (ch == customCharQuote) 
+                {
                     inQuotes = false;
                     doubleQuotesInColumn = false;
-                } else {
-
-                    //Fixed : allow "" in custom quote enclosed
-                    if (ch == '\"') {
-                        if (!doubleQuotesInColumn) {
-                            curVal.append(ch);
+                }
+                else
+                {
+                    if (ch == '\"') 
+                    {
+                        if (!doubleQuotesInColumn) 
+                        {
+                        	stringBuffer.append(ch);
                             doubleQuotesInColumn = true;
                         }
-                    } else {
-                        curVal.append(ch);
+                    } 
+                    else 
+                    {
+                    	stringBuffer.append(ch);
                     }
-
                 }
-            } else {
-                if (ch == customQuote) {
-
+            } 
+            else 
+            {
+                if (ch == customCharQuote) 
+                {
                     inQuotes = true;
 
-                    //Fixed : allow "" in empty quote enclosed
-                    if (chars[0] != '"' && customQuote == '\"') {
-                        curVal.append('"');
+                    if (startCollectChar) 
+                    {
+                    	stringBuffer.append('"');
                     }
 
-                    //double quotes in column will hit this!
-                    if (startCollectChar) {
-                        curVal.append('"');
-                    }
+                } 
+                else if (ch == charSeparator) 
+                {
+                	line.add(stringBuffer.toString());
 
-                } else if (ch == separators) {
-
-                    result.add(curVal.toString());
-
-                    curVal = new StringBuffer();
+                	stringBuffer = new StringBuffer();
                     startCollectChar = false;
-
-                } else if (ch == '\r') {
-                    //ignore LF characters
+                } 
+                else if (ch == '\r')
+                {
                     continue;
-                } else if (ch == '\n') {
-                    //the end, break!
+                } 
+                else if (ch == '\n')
+                {
                     break;
-                } else {
-                    curVal.append(ch);
+                }
+                else
+                {
+                	stringBuffer.append(ch);
                 }
             }
 
         }
 
-        result.add(curVal.toString());
+        line.add(stringBuffer.toString());
 
-        return result;
+        return line;
     }
 }
 

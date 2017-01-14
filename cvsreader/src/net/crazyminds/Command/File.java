@@ -31,17 +31,15 @@ public class File  implements Command  {
 				return response;
 			}
 			
-			ArrayList<ArrayList<String>> lines = Model.getInstance().GetLines(countParam);
 			response.setStatus(true);
 			response.setMessage(null);
-			response.setValues(new FileData(Model.getInstance().GetProperties(),  lines ));
+			response.setValues(new FileData(Model.getInstance().GetProperties(),  Model.getInstance().GetLines(countParam) ));
 			return response;
 		}
 		
-		ArrayList<ArrayList<String>> lines = Model.getInstance().GetLines();
 		response.setStatus(true);
 		response.setMessage(null);
-		response.setValues(new FileData(Model.getInstance().GetProperties(),  lines ));	
+		response.setValues(new FileData(Model.getInstance().GetProperties(),  Model.getInstance().GetLines() ));	
 		
 		return response;
 	}

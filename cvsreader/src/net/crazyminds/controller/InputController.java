@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
+import javax.crypto.spec.GCMParameterSpec;
+
 import net.crazyminds.Command.Count;
 import net.crazyminds.Command.File;
 import net.crazyminds.Command.Filter;
@@ -109,6 +111,7 @@ public class InputController {
 	 *			
 	 */
 
+	static final String blank = "";
 	private static void ProcessCommand(String input) {
 		Response response = new Response();
 		String[] commandline = Sanitize(input);
@@ -116,7 +119,7 @@ public class InputController {
 		if(commandline == null)
 		{	
 			response.setStatus(true);
-			response.setMessage("");
+			response.setMessage(blank);
 			View.ShowCommandOkMessage( response );
 			return;
 		}
@@ -168,6 +171,8 @@ public class InputController {
 				View.ShowCommandWarningMessage( response );
 				break;
 		}		
+		
+		System.gc();
 	}
 	
 	

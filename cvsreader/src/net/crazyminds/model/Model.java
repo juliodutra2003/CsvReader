@@ -16,13 +16,6 @@ public final class Model {
 	private static ArrayList<ArrayList<String>> tableList = new ArrayList<ArrayList<String>>();
 	private static String[] propertyNames;
 	
-	//MEMORY OPTIMIZATION:reusable pools
-	ArrayList<String> stringArrayWorkingPool = new ArrayList<>();
-	ArrayList<ArrayList<String>> lineArrayList = new ArrayList<ArrayList<String>>();
-	
-	private Model()
-	{}
-	
 	//synchronized - not allow more then one instance, by method being called by two different threads.
 	public static synchronized Model getInstance()
 	{
@@ -38,6 +31,7 @@ public final class Model {
 		
 		DataProvider dataProvider = new DataProvider();
 		response = dataProvider.Provide(workingFileName);
+		dataProvider = null;
 		
 		if(!response.GetStatus())
 			return response;			
@@ -56,6 +50,9 @@ public final class Model {
 		{	
 			tableList.add(lines.get(i));
 		}
+
+		//Memory optimization
+		tableList.trimToSize();
 		
 		response.setStatus(true);
 		response.setMessage(response.getMessage() + "\n");
@@ -97,6 +94,7 @@ public final class Model {
 	 */
 	public int GetCountDistinct(String targetProperty) {
 		
+		ArrayList<String> stringArrayWorkingPool = new ArrayList<>();
 		int propertyIndex = GetPropertyCaptionIndex(targetProperty);
 		
 		for(ArrayList<String> line: tableList )
@@ -119,7 +117,8 @@ public final class Model {
 	 * @return ArrayList<ArrayList<String>> . Each ArrayList represents an ArrayList<String>> (line).
 	 */
 	public ArrayList<ArrayList<String>>  GetLines(String targetProperty, String targetValue) {
- 
+		ArrayList<ArrayList<String>> lineArrayList = new ArrayList<ArrayList<String>>();
+		
 		int propertyIndex = GetPropertyCaptionIndex(targetProperty);
 		lineArrayList.clear();
 		
@@ -151,6 +150,7 @@ public final class Model {
 	 * @return ArrayList of ArrayList<String> . Each ArrayList<String> represents a line.
 	 */
 	public ArrayList<ArrayList<String>> GetLines(int countParam) {
+		ArrayList<ArrayList<String>> lineArrayList = new ArrayList<ArrayList<String>>();
 		int amount  = (tableList.size() > countParam)?countParam:tableList.size();
 		lineArrayList.clear();
 		
