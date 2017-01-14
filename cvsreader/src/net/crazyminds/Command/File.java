@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import net.crazyminds.controller.Response;
+import net.crazyminds.model.FileData;
 import net.crazyminds.model.Model;
 
 public class File  implements Command  {
@@ -32,15 +33,15 @@ public class File  implements Command  {
 			
 			ArrayList<ArrayList<String>> lines = Model.getInstance().GetLines(countParam);
 			response.setStatus(true);
-			response.setMessage("");
-			response.setValues(new ListReturnValue(Model.getInstance().GetProperties(),  lines ));
+			response.setMessage(null);
+			response.setValues(new FileData(Model.getInstance().GetProperties(),  lines ));
 			return response;
 		}
 		
 		ArrayList<ArrayList<String>> lines = Model.getInstance().GetLines();
 		response.setStatus(true);
-		response.setMessage("");
-		response.setValues(new ListReturnValue(Model.getInstance().GetProperties(),  lines ));	
+		response.setMessage(null);
+		response.setValues(new FileData(Model.getInstance().GetProperties(),  lines ));	
 		
 		return response;
 	}

@@ -22,7 +22,7 @@ public class Count implements Command {
 		{
 			int count = Model.getInstance().GetTotalCount();
 			response.setStatus(true);
-			response.setMessage("");
+			response.setMessage(null);
 			response.setValues(String.valueOf(count));
 		}
 		else if (commandline[1] .equals("distinct"))

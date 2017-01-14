@@ -37,6 +37,7 @@ public class InputController {
 		response = Initialize(args);
 		if (response.GetStatus())
 		{
+			response = null;
 			View.ShowOpenning();	
 			readConsole();
 		}

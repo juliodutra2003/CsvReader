@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import net.crazyminds.controller.Response;
+import net.crazyminds.model.FileData;
 import net.crazyminds.model.Model;
 
 public class Filter implements Command {
@@ -37,8 +38,8 @@ public class Filter implements Command {
 		
 		ArrayList<ArrayList<String>> lines = Model.getInstance().GetLines(targetProperty , targetValue);
 		response.setStatus(true);
-		response.setMessage("");
-		response.setValues(new ListReturnValue(Model.getInstance().GetProperties(),  lines ));		
+		response.setMessage(null);
+		response.setValues(new FileData(Model.getInstance().GetProperties(),  lines ));		
 
 		return response;
 	}

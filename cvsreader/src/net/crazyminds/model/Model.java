@@ -13,10 +13,10 @@ public final class Model {
 	private static Model instance;
 	
 	//MEMORY OPTIMIZATION: using primitive types, using array-based structures to minimize objects in memory
-	ArrayList<ArrayList<String>> tableList = new ArrayList<ArrayList<String>>();
-	String[] propertyNames;
+	private static ArrayList<ArrayList<String>> tableList = new ArrayList<ArrayList<String>>();
+	private static String[] propertyNames;
 	
-	//MEMORY OPTIMIZATION:reusable pool
+	//MEMORY OPTIMIZATION:reusable pools
 	ArrayList<String> stringArrayWorkingPool = new ArrayList<>();
 	ArrayList<ArrayList<String>> lineArrayList = new ArrayList<ArrayList<String>>();
 	
@@ -98,7 +98,6 @@ public final class Model {
 	public int GetCountDistinct(String targetProperty) {
 		
 		int propertyIndex = GetPropertyCaptionIndex(targetProperty);
-		stringArrayWorkingPool.clear();
 		
 		for(ArrayList<String> line: tableList )
 		{
@@ -106,7 +105,9 @@ public final class Model {
 			if (!stringArrayWorkingPool.contains(value))
 				stringArrayWorkingPool.add(value);
 		}
-		return stringArrayWorkingPool.size();
+		int size = stringArrayWorkingPool.size();
+		stringArrayWorkingPool.clear();
+		return size;
 	}
 	
 	/**

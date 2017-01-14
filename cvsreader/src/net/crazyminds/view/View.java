@@ -1,8 +1,9 @@
 package net.crazyminds.view;
 
 import java.util.ArrayList;
-import net.crazyminds.Command.ListReturnValue;
+
 import net.crazyminds.controller.Response;
+import net.crazyminds.model.FileData;
 
 /**
  *  
@@ -18,7 +19,7 @@ import net.crazyminds.controller.Response;
 
 public class View {
 	
-	static String helpMessage =  "Commands: \n" + 
+	private static final String helpMessage =  "Commands: \n" + 
 			   " help (show this help) \n"+
 		       " quit (quit program) \n" + 
 		       " show (show all valid properties) \n"+
@@ -28,10 +29,15 @@ public class View {
 			   " count disctint [propertyname] (show the total count of [distinct] values of a [property] ) \n" +
 			   " filter property [value] (show all lines where a [property] has the [value]) \n";
 	
+	private static final String prompt =  "> ";
+	
+	private static final String propertyCaptionMessage =  "Properties: \n" + 
+			   											  " -----------------------------------------";
+	
 
 	public static void ShowCommandPrompt() {
 		
-		System.out.print("> ");	
+		System.out.print(prompt);	
 	}
 	
 	public static void ShowFatalError(Response<?> response ) {
@@ -96,8 +102,7 @@ public class View {
 	 * @param response
 	 */
 	public static void ShowPropertiesMessage(Response response) {
-		System.out.println("Properties:");
-		System.out.println( "----------------------------------------- ");
+		System.out.println( propertyCaptionMessage );
 		for (String s: (String[])response.getValues())
 		{
 			System.out.println( s );
@@ -112,13 +117,16 @@ public class View {
 	public static void ShowFile(Response<?> response) {
 		if(response.GetStatus())
 		{
-			ListReturnValue list = (ListReturnValue)response.getValues();
+			FileData list = (FileData)response.getValues();
 			for (String s: list.getPropertyNames())
 			{
 				if (list.getPropertyNames()[list.getPropertyNames().length-1] == s)
 					System.out.println( s);
 				else
-					System.out.print( s+",");
+				{
+					System.out.print(s);
+				    System.out.print(",");
+				}
 			}
 			
 			for (ArrayList<String> line : list.getLines() )
@@ -128,7 +136,10 @@ public class View {
 					if (line.get(line.size() - 1) == value)
 						System.out.println( value);
 					else
-						System.out.print( value+",");
+					{
+						System.out.print( value);
+						System.out.print( ",");
+					}
 				}
 			}
 		}
@@ -165,14 +176,17 @@ public class View {
 	public static void ShowFilterValue(Response<?> response) {
 		if(response.GetStatus())
 		{
-			ListReturnValue filterValue = (ListReturnValue)response.getValues();
+			FileData filterValue = (FileData)response.getValues();
 			
 			for (String s: filterValue.getPropertyNames())
 			{
 				if (filterValue.getPropertyNames()[filterValue.getPropertyNames().length - 1] == s)
 					System.out.println( s);
 				else
-					System.out.print( s+",");
+				{
+					System.out.print(s);
+					System.out.print(",");
+				}
 			}
 			
 			for (ArrayList<String> line : filterValue.getLines() )
@@ -182,7 +196,10 @@ public class View {
 					if (line.get(line.size() - 1) == value)
 						System.out.println( value);
 					else
-						System.out.print( value+",");
+					{
+						System.out.print(value);
+						System.out.print(",");
+					}
 				}
 			}
 		}
