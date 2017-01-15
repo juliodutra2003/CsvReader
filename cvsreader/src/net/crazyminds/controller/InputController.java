@@ -2,11 +2,8 @@ package net.crazyminds.controller;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.function.Consumer;
-
-import javax.crypto.spec.GCMParameterSpec;
 
 import net.crazyminds.Command.Count;
 import net.crazyminds.Command.File;
@@ -33,7 +30,9 @@ public class InputController {
 	static Filter filterCommand = new Filter();
 	
 	public static void main(String... args) {
-		consoleReader = new BufferedReader(new InputStreamReader(System.in));
+		  
+
+	   consoleReader = new BufferedReader(new InputStreamReader(System.in, Charset.defaultCharset()));		
 		 
 		Response response = new Response();
 		response = Initialize(args);
@@ -80,7 +79,7 @@ public class InputController {
 	
 	static void readConsole() {
 		boolean loop_cond=true;
-	    String input = "";
+	    String input;
 
 	    while(loop_cond == true)
 	    {
@@ -193,7 +192,7 @@ public class InputController {
 		String inputStream = input;
 		while (inputStream.length() > 0)
 		{
-			ExtratedParam extracted = ExtractParam(inputStream);
+			ExtractedParam extracted = ExtractParam(inputStream);
 			inputStream = extracted.stream;
 			if(extracted.paramameter != null)
 				commandline.add(extracted.paramameter);
@@ -202,7 +201,6 @@ public class InputController {
 		if (commandline.size() == 0)
 			return null;
 		
-		System.out.println("Command: " + commandline);
 		return commandline.toArray(new String[commandline.size()]);
 	}
 	
@@ -217,9 +215,9 @@ public class InputController {
 	 * more: the original string has your content modified. the string parameter returned is removed.
 	 */
 
-	private static ExtratedParam ExtractParam(String stream) {
+	protected static ExtractedParam ExtractParam(String stream) {
 
-		ExtratedParam extratedParam = new ExtratedParam();
+		ExtractedParam extratedParam = new ExtractedParam();
 		
 		//extracting space
 		if (stream.charAt(0) == ' ')
@@ -238,9 +236,12 @@ public class InputController {
 				nextChar = stream.charAt(charIndex);	
 				finalChar += nextChar;
 				charIndex ++;	
-			};			
+			};	
 			extratedParam.paramameter = (finalChar.equals("")?null:finalChar);
-			extratedParam.stream = stream.substring(charIndex, stream.length());
+			if( charIndex < stream.length() && stream.charAt(charIndex) == '\'')
+				extratedParam.stream = stream.substring(charIndex+1, stream.length());
+			else
+				extratedParam.stream = stream.substring(charIndex, stream.length());
 		}
 		//extracting single world param
 		else
@@ -264,7 +265,7 @@ public class InputController {
 		return extratedParam;
 	}
 	
-	private static class ExtratedParam
+	static class ExtractedParam
 	{		
 		String stream;
 		String paramameter;
