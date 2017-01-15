@@ -207,14 +207,15 @@ public class InputController {
 	
 	/**
 	 * This method extracts the first parameter found in the input string.
+	 * The original string has your content modified. The string parameter returned is removed.
 	 * 
 	 * @param stream input string to be processed
 	 * 
-	 * @return ExtratedParam object with the parameter extracted (parameter) and the resultant stream (stream)
+	 * @return  An object of type ExtratedParam with the parameter extracted (parameter) and the remaining string (stream). 
+	 * 			Return extratedParam.paramameter = null if the stream line start with a space (" "). 
+	 * 			(extratedParam.paramameter = null;)
 	 * 
-	 * more: the original string has your content modified. the string parameter returned is removed.
 	 */
-
 	protected static ExtractedParam ExtractParam(String stream) {
 
 		ExtractedParam extratedParam = new ExtractedParam();
