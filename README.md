@@ -5,7 +5,7 @@ In the current version, CsvReader supports only .csv files, but can be extended 
 
 ## How to use:
 
-Run the generated .jar file by passing in the name of your data source file, like the image below:
+To run your generated .jar file you need to pass the name of your data source file as parameter, like the image below:
 ![GitHub Logo](https://i.gyazo.com/1c938c56eb843ad6913cc21f2b88b3e0.png)
 
 Use the following commands as showing below:
@@ -24,7 +24,7 @@ Use the following commands as showing below:
 
 2) If you pass any parameter with more then one word, you need to use quotes ('):
 * filter [property] ['_value with more then a world_'] 
-  *  > e.g. filter carfuel 'eletric cars'
+  *  e.g. >filter carfuel 'eletric cars'
 
 3) If you have some problems to show some characters on windows cmd: 
 * change font to Lucida Console
