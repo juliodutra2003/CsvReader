@@ -26,6 +26,10 @@ Use the following commands as showing below:
 * filter [property] ['_value with more then a world_'] 
   *  > e.g. filter carfuel 'eletric cars'
 
+3) If you have some problems to show some characters on windows cmd: 
+* change font to Lucida Console
+* run _'chcp 1252'_ on console before start Csvreader
+
 ## TODO:
 * List of files to read and operate, instead of directly read from command line as a parameter;
 * Support to XML files
