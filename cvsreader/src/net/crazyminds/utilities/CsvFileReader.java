@@ -75,7 +75,7 @@ public class CsvFileReader implements FileReader {
 	 *		\r\n = CR + LF // Used as a new line character in Windows
 	 */
 
-	public static ArrayList<String> parseLine(String cvsLine ) {
+	public ArrayList<String> parseLine(String cvsLine ) {
 
 		 char charSeparator = ',';
 		 char customCharQuote = '"';
