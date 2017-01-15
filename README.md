@@ -23,8 +23,8 @@ Use the following commands as showing below:
 1) Files need to be in UTF-8 character enconde
 
 2) If you pass any parameter with more then one word, you need to use quotes ('):
-* filter [property] ['_value with more then a world_']
-**e.g. filter carfuel 'eletric cars'
+* filter [property] ['_value with more then a world_'] 
+  *  > e.g. filter carfuel 'eletric cars'
 
 ## TODO:
 * List of files to read and operate, instead of directly read from command line as a parameter;
