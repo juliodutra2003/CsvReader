@@ -32,6 +32,7 @@ public final class Model {
 		DataProvider dataProvider = new DataProvider();
 		response = dataProvider.Provide(workingFileName);
 		dataProvider = null;
+		tableList.clear();
 		
 		if(!response.GetStatus())
 			return response;			

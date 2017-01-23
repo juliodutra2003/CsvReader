@@ -14,7 +14,6 @@ public class CountTest {
 
 	@Test
 	public final void Interpret1CountNoParameter() {
-		Model.getInstance().Initialize("test.csv");
 		Count count = new Count();
 		Response response = count.Interpret(new String[]{"count"});
 		
